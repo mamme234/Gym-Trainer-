@@ -1,9 +1,5 @@
 // ===== AOS Init =====
-AOS.init({
-    duration: 900,
-    once: true,
-    offset: 60,
-});
+AOS.init({ duration: 900, once: true, offset: 60 });
 
 // ===== SWIPER =====
 const swiper = new Swiper('.mySwiper', {
@@ -12,7 +8,12 @@ const swiper = new Swiper('.mySwiper', {
     pagination: { el: '.swiper-pagination', clickable: true },
     slidesPerView: 1,
     spaceBetween: 20,
-    breakpoints: { 768: { slidesPerView: 2 } },
+    breakpoints: { 768: { slidesPerView: 2 } }
+});
+
+// ===== NAV TOGGLE =====
+document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('active');
 });
 
 // ===== COUNTER ANIMATION =====
@@ -30,7 +31,6 @@ const animateCounter = (el) => {
     }, speed);
 };
 
-// Intersection Observer for counters
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -45,7 +45,7 @@ const observer = new IntersectionObserver((entries) => {
 
 counters.forEach(c => observer.observe(c));
 
-// ===== CHART.JS (Weight Progress) =====
+// ===== CHART.JS =====
 const ctx = document.getElementById('weightChart').getContext('2d');
 new Chart(ctx, {
     type: 'line',
@@ -66,11 +66,14 @@ new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
         plugins: { legend: { labels: { color: '#fff' } } },
-        scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#ccc' } }, x: { grid: { display: false }, ticks: { color: '#ccc' } } }
+        scales: {
+            y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#ccc' } },
+            x: { grid: { display: false }, ticks: { color: '#ccc' } }
+        }
     }
 });
 
-// ===== PARTICLES (generate) =====
+// ===== PARTICLES =====
 const container = document.getElementById('particles');
 for (let i = 0; i < 40; i++) {
     const p = document.createElement('div');
@@ -83,9 +86,38 @@ for (let i = 0; i < 40; i++) {
     container.appendChild(p);
 }
 
-// ===== SCROLL INDICATOR (smooth) =====
+// ===== SCROLL INDICATOR =====
 document.querySelector('.scroll-indicator')?.addEventListener('click', () => {
     window.scrollBy({ top: window.innerHeight * 0.9, behavior: 'smooth' });
 });
+
+// ===== BUTTON INTERACTIONS =====
+document.getElementById('startBtn')?.addEventListener('click', () => {
+    alert('🚀 Welcome to IronForge! Your 7-day trial starts now.');
+});
+
+document.getElementById('trialBtn')?.addEventListener('click', () => {
+    alert('🎯 Claim your 7-day free trial!');
+});
+
+document.getElementById('authBtn')?.addEventListener('click', () => {
+    alert('🔐 Login / Register modal would open here.');
+});
+
+// ===== API CONFIG (for backend connection) =====
+const API_URL = process.env.API_URL || 'http://localhost:5000/api';
+
+// Example API call (uncomment when backend is ready)
+/*
+async function fetchDashboard() {
+    try {
+        const response = await fetch(`${API_URL}/dashboard`);
+        const data = await response.json();
+        console.log('Dashboard data:', data);
+    } catch (error) {
+        console.error('API Error:', error);
+    }
+}
+*/
 
 console.log('🏋️ IronForge loaded — gold standard fitness.');
