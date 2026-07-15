@@ -4,229 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>IronForge · Gym App</title>
-    <!-- Font Awesome -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- AOS -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-    <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: #0A0A0A; color: #fff; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0A0A0A; }
-        ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 8px; }
-
-        /* ===== GLASS CARD ===== */
-        .glass {
-            background: rgba(255,255,255,0.03);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            border: 1px solid rgba(255,215,0,0.15);
-            border-radius: 24px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-        }
-
-        /* ===== GOLD GLOW BUTTON ===== */
-        .btn-gold {
-            background: #FFD700;
-            color: #0A0A0A;
-            font-weight: 700;
-            padding: 14px 34px;
-            border: none;
-            border-radius: 60px;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(255,215,0,0.3);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-gold:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 50px rgba(255,215,0,0.6);
-            background: #fff3a0;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding: 0 1.5rem;
-        }
-        .hero-video {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
-        .hero-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(10,10,10,0.7);
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        }
-        .hero-content h1 {
-            font-size: clamp(2.8rem, 12vw, 5.5rem);
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-        .hero-content h1 span { color: #FFD700; }
-        .hero-content p {
-            font-size: 1.25rem;
-            opacity: 0.8;
-            margin: 1.2rem 0 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            color: #FFD700;
-            font-size: 2rem;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce { 0%,100%{ transform: translateX(-50%) translateY(0); } 50%{ transform: translateX(-50%) translateY(12px); } }
-
-        /* ===== SECTION ===== */
-        section { padding: 80px 1.5rem; max-width: 1280px; margin: 0 auto; }
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-        .section-title span { color: #FFD700; }
-
-        /* ===== CARDS GRID ===== */
-        .grid-4 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 2rem 1rem;
-            border-radius: 24px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,215,0,0.08);
-            transition: 0.3s;
-        }
-        .stat-card:hover { border-color: #FFD700; box-shadow: 0 0 30px rgba(255,215,0,0.05); }
-        .stat-card i { font-size: 2.8rem; color: #FFD700; margin-bottom: 0.5rem; }
-        .stat-number { font-size: 2.6rem; font-weight: 800; color: #FFD700; }
-
-        /* ===== TOOLS ROW ===== */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-        .tool-item {
-            background: rgba(255,255,255,0.02);
-            padding: 1.8rem 1rem;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,215,0,0.05);
-            transition: 0.3s;
-        }
-        .tool-item i { font-size: 2.2rem; color: #FFD700; margin-bottom: 0.6rem; }
-        .tool-item h4 { font-weight: 600; margin-bottom: 0.3rem; }
-
-        /* ===== DASHBOARD PREVIEW ===== */
-        .dashboard-preview {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .dash-card {
-            padding: 1.8rem;
-            border-radius: 24px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,215,0,0.08);
-        }
-        .dash-card .chart-container { height: 180px; width: 100%; }
-
-        /* ===== TESTIMONIALS (swiper) ===== */
-        .swiper {
-            width: 100%;
-            padding: 2rem 0;
-        }
-        .swiper-slide {
-            background: rgba(255,255,255,0.02);
-            border-radius: 24px;
-            padding: 2rem;
-            border: 1px solid rgba(255,215,0,0.06);
-            text-align: center;
-        }
-        .swiper-slide i { color: #FFD700; font-size: 2rem; margin-bottom: 0.5rem; }
-
-        /* ===== FOOTER ===== */
-        footer {
-            border-top: 1px solid rgba(255,215,0,0.1);
-            padding: 3rem 1.5rem;
-            text-align: center;
-            color: #aaa;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .dashboard-preview { grid-template-columns: 1fr; }
-            section { padding: 60px 1rem; }
-            .hero-content h1 { font-size: 2.8rem; }
-        }
-
-        /* ===== PARTICLES (fake) ===== */
-        .particle-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            width: 4px; height: 4px;
-            background: #FFD700;
-            border-radius: 50%;
-            opacity: 0.2;
-            animation: floatParticle 18s infinite alternate ease-in-out;
-        }
-        @keyframes floatParticle {
-            0% { transform: translate(0,0) scale(0.8); opacity: 0.1; }
-            100% { transform: translate(40px, -60px) scale(1.2); opacity: 0.4; }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<!-- ===== PARTICLES (decorative) ===== -->
+<!-- ===== PARTICLES ===== -->
 <div class="particle-bg" id="particles"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo"><i class="fas fa-dumbbell" style="color:#FFD700;"></i> IronForge</div>
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#programs">Programs</a>
+            <a href="#trainers">Trainers</a>
+            <a href="#nutrition">Nutrition</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#contact">Contact</a>
+            <button class="btn-gold-small" id="authBtn"><i class="fas fa-user"></i> Login</button>
+        </div>
+        <div class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></div>
+    </div>
+</nav>
 
 <!-- ===== HERO ===== -->
 <section class="hero" id="home">
@@ -237,8 +41,11 @@
     <div class="hero-content" data-aos="fade-up" data-aos-duration="1200">
         <h1>BUILD <span>IRON</span> LEGACY</h1>
         <p>Elite training, AI coaching, nutrition & community — all in one gold-standard app.</p>
-        <button class="btn-gold"><i class="fas fa-dumbbell"></i> Start Free Trial</button>
-        <div style="margin-top: 2rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+        <div class="hero-buttons">
+            <button class="btn-gold" id="startBtn"><i class="fas fa-dumbbell"></i> Start Free Trial</button>
+            <button class="btn-outline" id="learnBtn">Learn More</button>
+        </div>
+        <div class="hero-stats">
             <span><i class="fas fa-check-circle" style="color:#FFD700;"></i> 12k+ members</span>
             <span><i class="fas fa-check-circle" style="color:#FFD700;"></i> 150+ trainers</span>
             <span><i class="fas fa-check-circle" style="color:#FFD700;"></i> 98% satisfaction</span>
@@ -247,9 +54,9 @@
     <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
 </section>
 
-<!-- ===== STATS / COUNTERS ===== -->
+<!-- ===== STATS ===== -->
 <section data-aos="fade-up">
-    <div class="grid-4">
+    <div class="stats-grid">
         <div class="stat-card"><i class="fas fa-users"></i><div class="stat-number" data-count="12450">0</div><p>Members</p></div>
         <div class="stat-card"><i class="fas fa-chalkboard-teacher"></i><div class="stat-number" data-count="158">0</div><p>Trainers</p></div>
         <div class="stat-card"><i class="fas fa-calendar-alt"></i><div class="stat-number" data-count="12">0</div><p>Years Experience</p></div>
@@ -257,35 +64,75 @@
     </div>
 </section>
 
-<!-- ===== FEATURES TOOLS ===== -->
-<section data-aos="fade-up">
-    <h2 class="section-title">⚡ <span>Smart</span> Tools</h2>
-    <div class="tools-grid">
-        <div class="tool-item"><i class="fas fa-calculator"></i><h4>BMI Calc</h4><small>Track your body</small></div>
-        <div class="tool-item"><i class="fas fa-fire"></i><h4>Calories</h4><small>Daily intake</small></div>
-        <div class="tool-item"><i class="fas fa-dumbbell"></i><h4>Workout Gen</h4><small>AI powered</small></div>
-        <div class="tool-item"><i class="fas fa-utensils"></i><h4>Meal Planner</h4><small>Custom diets</small></div>
-        <div class="tool-item"><i class="fas fa-tint"></i><h4>Water Tracker</h4><small>Hydration</small></div>
-        <div class="tool-item"><i class="fas fa-clock"></i><h4>Rest Timer</h4><small>Recovery</small></div>
-        <div class="tool-item"><i class="fas fa-music"></i><h4>Music Player</h4><small>Pump up</small></div>
-        <div class="tool-item"><i class="fas fa-qrcode"></i><h4>QR Attendance</h4><small>Check-in</small></div>
+<!-- ===== PROGRAMS ===== -->
+<section id="programs" data-aos="fade-up">
+    <h2 class="section-title">💪 <span>Programs</span></h2>
+    <div class="programs-grid">
+        <div class="program-card glass"><i class="fas fa-running"></i><h4>Strength</h4><p>Powerlifting & Hypertrophy</p></div>
+        <div class="program-card glass"><i class="fas fa-heartbeat"></i><h4>Cardio</h4><p>HIIT & Endurance</p></div>
+        <div class="program-card glass"><i class="fas fa-yoga"></i><h4>Flexibility</h4><p>Mobility & Stretching</p></div>
+        <div class="program-card glass"><i class="fas fa-brain"></i><h4>Mindset</h4><p>Mental toughness</p></div>
     </div>
 </section>
 
-<!-- ===== DASHBOARD PREVIEW ===== -->
-<section data-aos="fade-up">
-    <h2 class="section-title">📊 <span>Dashboard</span> Preview</h2>
-    <div class="dashboard-preview">
+<!-- ===== TRAINERS ===== -->
+<section id="trainers" data-aos="fade-up">
+    <h2 class="section-title">👨‍🏫 <span>Elite Trainers</span></h2>
+    <div class="trainers-grid">
+        <div class="trainer-card glass">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Trainer"/>
+            <h4>Alex Rivera</h4>
+            <p>🏆 12 years exp</p>
+            <div class="trainer-social">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+        <div class="trainer-card glass">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Trainer"/>
+            <h4>Sarah Chen</h4>
+            <p>🥇 Nutrition expert</p>
+            <div class="trainer-social">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+        <div class="trainer-card glass">
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Trainer"/>
+            <h4>Marcus Jones</h4>
+            <p>🔥 HIIT specialist</p>
+            <div class="trainer-social">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== NUTRITION ===== -->
+<section id="nutrition" data-aos="fade-up">
+    <h2 class="section-title">🍎 <span>Nutrition</span></h2>
+    <div class="nutrition-grid">
+        <div class="nutrition-card glass"><i class="fas fa-utensils"></i><h4>Meal Plans</h4><p>Custom macro tracking</p></div>
+        <div class="nutrition-card glass"><i class="fas fa-tint"></i><h4>Water Tracker</h4><p>Hydration goals</p></div>
+        <div class="nutrition-card glass"><i class="fas fa-calculator"></i><h4>Calorie Counter</h4><p>AI-powered logging</p></div>
+        <div class="nutrition-card glass"><i class="fas fa-apple-alt"></i><h4>Supplements</h4><p>Premium quality</p></div>
+    </div>
+</section>
+
+<!-- ===== DASHBOARD ===== -->
+<section id="dashboard" data-aos="fade-up">
+    <h2 class="section-title">📊 <span>Dashboard</span></h2>
+    <div class="dashboard-grid">
         <div class="dash-card glass">
             <h4><i class="fas fa-fire" style="color:#FFD700;"></i> Today's Workout</h4>
-            <p style="margin:0.5rem 0 1rem;">🔥 Chest & Triceps · 45 min</p>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <p style="margin:0.5rem 0;">🔥 Chest & Triceps · 45 min</p>
+            <div class="dash-stats">
                 <span><i class="fas fa-bolt" style="color:#FFD700;"></i> 420 kcal</span>
                 <span><i class="fas fa-shoe-prints"></i> 6,240 steps</span>
+                <span><i class="fas fa-clock"></i> 4:30 PM</span>
             </div>
-            <div style="margin-top:1rem; background:#1a1a1a; border-radius:30px; height:6px; width:100%;">
-                <div style="width:70%; background:#FFD700; height:6px; border-radius:30px;"></div>
-            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
         </div>
         <div class="dash-card glass">
             <h4><i class="fas fa-chart-line" style="color:#FFD700;"></i> Weight Progress</h4>
@@ -293,60 +140,83 @@
         </div>
         <div class="dash-card glass">
             <h4><i class="fas fa-medal" style="color:#FFD700;"></i> Achievements</h4>
-            <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:0.6rem;">
-                <span class="glass" style="padding:0.4rem 1rem;">🏆 5k run</span>
-                <span class="glass" style="padding:0.4rem 1rem;">💪 100kg squat</span>
-                <span class="glass" style="padding:0.4rem 1rem;">🔥 30-day streak</span>
+            <div class="achievement-badges">
+                <span class="badge">🏆 5k run</span>
+                <span class="badge">💪 100kg squat</span>
+                <span class="badge">🔥 30-day streak</span>
+                <span class="badge">⭐ Level 10</span>
+            </div>
+            <div style="margin-top:1rem;">
+                <p style="opacity:0.6; font-size:0.9rem;">Next: 50 workouts 🎯</p>
             </div>
         </div>
         <div class="dash-card glass">
             <h4><i class="fas fa-bell" style="color:#FFD700;"></i> Notifications</h4>
-            <ul style="list-style:none; margin-top:0.5rem; font-size:0.9rem; opacity:0.8;">
+            <ul class="notification-list">
                 <li><i class="fas fa-check-circle" style="color:#FFD700;"></i> Workout reminder: 6PM</li>
                 <li><i class="fas fa-star" style="color:#FFD700;"></i> New challenge: Burpees</li>
                 <li><i class="fas fa-user-plus"></i> Trainer Sarah messaged</li>
+                <li><i class="fas fa-gift"></i> Membership renewal</li>
             </ul>
         </div>
     </div>
 </section>
 
-<!-- ===== TESTIMONIALS (swiper) ===== -->
+<!-- ===== TESTIMONIALS ===== -->
 <section data-aos="fade-up">
     <h2 class="section-title">⭐ <span>Testimonials</span></h2>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide"><i class="fas fa-quote-left"></i><p>"IronForge changed my life. The AI coach and community are unmatched."</p><strong>- Alex M.</strong></div>
-            <div class="swiper-slide"><i class="fas fa-quote-left"></i><p>"Best gym app ever! The progress tracker keeps me accountable."</p><strong>- Jamie L.</strong></div>
-            <div class="swiper-slide"><i class="fas fa-quote-left"></i><p>"Love the meal planner and workout generator. 10/10."</p><strong>- Taylor R.</strong></div>
+            <div class="swiper-slide glass">
+                <i class="fas fa-quote-left" style="color:#FFD700;"></i>
+                <p>"IronForge changed my life. The AI coach and community are unmatched."</p>
+                <strong>- Alex M.</strong>
+                <div style="color:#FFD700; margin-top:0.5rem;">★★★★★</div>
+            </div>
+            <div class="swiper-slide glass">
+                <i class="fas fa-quote-left" style="color:#FFD700;"></i>
+                <p>"Best gym app ever! The progress tracker keeps me accountable."</p>
+                <strong>- Jamie L.</strong>
+                <div style="color:#FFD700; margin-top:0.5rem;">★★★★★</div>
+            </div>
+            <div class="swiper-slide glass">
+                <i class="fas fa-quote-left" style="color:#FFD700;"></i>
+                <p>"Love the meal planner and workout generator. 10/10."</p>
+                <strong>- Taylor R.</strong>
+                <div style="color:#FFD700; margin-top:0.5rem;">★★★★★</div>
+            </div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
 </section>
 
-<!-- ===== CONTACT / CTA ===== -->
-<section data-aos="fade-up" style="text-align:center;">
+<!-- ===== CONTACT ===== -->
+<section id="contact" data-aos="fade-up" style="text-align:center;">
     <h2 class="section-title">📞 <span>Get Started</span></h2>
     <p style="max-width:500px; margin:0 auto 2rem; opacity:0.7;">Join 12,000+ members. Your transformation starts now.</p>
-    <button class="btn-gold"><i class="fas fa-rocket"></i> Claim 7-Day Trial</button>
-    <div style="margin-top:2rem; display:flex; gap:2rem; justify-content:center; flex-wrap:wrap;">
+    <button class="btn-gold" id="trialBtn"><i class="fas fa-rocket"></i> Claim 7-Day Trial</button>
+    <div class="contact-info">
         <span><i class="fas fa-phone" style="color:#FFD700;"></i> +1 (555) 789-1234</span>
         <span><i class="fas fa-envelope" style="color:#FFD700;"></i> support@ironforge.fit</span>
+        <span><i class="fab fa-instagram" style="color:#FFD700;"></i> @ironforge</span>
     </div>
 </section>
 
 <!-- ===== FOOTER ===== -->
 <footer>
     <p><i class="fas fa-dumbbell" style="color:#FFD700;"></i> IronForge · 2026 · All rights reserved</p>
-    <div style="margin-top:0.8rem; display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
-        <a href="#" style="color:#aaa; text-decoration:none;">Privacy</a>
-        <a href="#" style="color:#aaa; text-decoration:none;">Terms</a>
-        <a href="#" style="color:#aaa; text-decoration:none;">Support</a>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Support</a>
+        <a href="#">FAQ</a>
     </div>
 </footer>
 
 <!-- ===== SCRIPTS ===== -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="app.js"></script>
 </body>
-  </html>
+        </html>
