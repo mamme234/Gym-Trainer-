@@ -194,7 +194,7 @@ window.addEventListener('scroll', () => {
 
 // ===== API CONFIG (for backend connection) =====
 // Change this to your Render backend URL when deployed
-const API_URL = 'https://your-backend.onrender.com/api';
+const API_URL = 'https://gym-trainer-2izk.onrender.com/api';
 
 // Example API call (uncomment when backend is ready)
 /*
